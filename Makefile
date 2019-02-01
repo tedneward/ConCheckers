@@ -8,8 +8,14 @@ CYLCHECKERS_H=\
 
 all: console test
 
+clean:
+	rm -r *.dSYM
+	rm console
+	rm test
+
 console: consolemain.cpp $(CYLCHECKERS_CPP) $(CYLCHECKERS_H)
 	$(CC) -o console consolemain.cpp $(CYLCHECKERS_CPP)
 
 test: testing.cpp $(CYLCHECKERS_CPP) $(CYLCHECKERS_H)
 	$(CC) -o test testing.cpp $(CYLCHECKERS_CPP)
+	./test
