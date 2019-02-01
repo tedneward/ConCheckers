@@ -259,8 +259,11 @@ bool Board::legalMove(const Coord& constFrom, const Coord& constTo)
 
   return false;
 }
-bool Board::move(const Coord& from, const Coord& to)
+bool Board::move(const Coord& cfrom, const Coord& cto)
 {
+  Coord from = const_cast<Coord&>(cfrom);
+  Coord to = const_cast<Coord&>(cto);
+
   if (verbose)
     cout << "MOVE: " << from.row << from.col << 
       " TO " << to.row << to.col << endl;
@@ -274,17 +277,30 @@ bool Board::move(const Coord& from, const Coord& to)
   Piece piece = get(from);
 
   // Is this a jump?
-  if (from.col - to.col == 2 ||
-      from.col - to.col == -2)
+  if (from.row - to.row == 2 ||
+      from.row - to.row == -2)
   {
     // This is a jump; remove that piece
-    // TODO
+    if (verbose) cout << "JUMP!!" << endl;
+    if (to == from.upperRight().upperRight())
+    {
+      set(Piece::NONE, from.upperRight());
+    }
+    if (to == from.upperLeft().upperLeft())
+    {
+      set(Piece::NONE, from.upperLeft());
+    }
+    if (to == from.lowerRight().lowerRight())
+    {
+      set(Piece::NONE, from.lowerRight());
+    }
+    if (to == from.lowerLeft().lowerLeft())
+    {
+      set(Piece::NONE, from.lowerLeft());
+    }
   }
-  else
-  {
-    set(Piece::NONE, from);
-    set(piece, to);
-  }
+  set(Piece::NONE, from);
+  set(piece, to);
 
   // If this piece has reached the other player's side of the
   // board, and if this piece is a Pawn, it is now promoted

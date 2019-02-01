@@ -192,7 +192,28 @@ void edgesKingMovement()
 
 void pawnsCanJump()
 {
+  Board board;
+  board.setVerbose();
+  assert(board.move(Board::C1, Board::D2) == true);
+  assert(board.move(Board::F2, Board::E3) == true);
+  assert(board.move(Board::C5, Board::D4) == true);
+  assert(board.move(Board::E3, Board::C1) == true);
 
+  // Verify the spot the jump started from is empty
+  assert(board.get(Board::E3) == Piece::NONE);
+  // Verify the pawn is in the new spot
+  assert(board.get(Board::C1).player == 2);
+  // Verify the jumped piece is gone
+  assert(board.get(Board::D2) == Piece::NONE);
+
+  // Now the other side jumps!
+  assert(board.move(Board::B2, Board::D8) == true);
+  // Verify the spot the jump started from is empty
+  assert(board.get(Board::B2) == Piece::NONE);
+  // Verify the pawn is in the new spot
+  assert(board.get(Board::D8).player == 1);
+  // Verify the jumped piece is gone
+  assert(board.get(Board::C1) == Piece::NONE);
 }
 
 void kingsCanJump()
