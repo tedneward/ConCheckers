@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
+console
+test
 
 # Symbol directories
 *.dSYM
